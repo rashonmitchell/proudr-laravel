@@ -1,49 +1,21 @@
 <?php
-namespace App\Services;
-use Goutte\Client;
-use Symfony\Component\HttpClient\HttpClient;
-class ScraperService
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Services\ScraperService;
+
+class ScraperController extends Controller
 {
     /**
-     * Make a call to to specified url and return formatted data
-     * 
-     * @param string $url
-     * 
-     * @return array
+     * Get all the jobs openings at a specified url
      */
-    public function scrap($url)
+    public function index(ScraperService $scraperService)
     {
-        $client  = new Client(HttpClient::create(['timeout' => 60]));
-        $crawler = $client->request('GET', $url);
-       //Get the job title
-        $titles = $crawler->filter('.listResults h2')->each(function ($node) {
-            return $node->text();
-        });
+        $url = 'https://stackoverflow.com/jobs?l=South+Africa&d=20&u=Km';
         
-        //Get the link to view a specific job details
-        $links = $crawler->filter('.listResults a.s-link')->each(function($node){
-            $href  = 'https://stackoverflow.com' . $node->attr('href');
-            $title = $node->attr('title');
-            $text  = $node->text();
-            return compact('href', 'title', 'text');
-        });
-       //Get all the technical tags for each job posting
-        $tags = $crawler->filter('.ps-relative.d-inline-block')->each(function($node){
-            return $node->filter('a.post-tag')->each(function($nested_node){
-                $href  = 'https://stackoverflow.com' . $nested_node->attr('href');
-                $title = $nested_node->attr('title');
-                $text  = $nested_node->text();
-                return compact('href', 'title', 'text');
-            });
-        });
-      //Job location
-       $location = $crawler->filter('.listResults h3')->each(function ($node) {
-            return $node->text();
-        });
-//Date posted
-       $time = $crawler->filter('div.fs-caption div.grid--cell:first-child')->each(function ($node) {
-            return $node->text();
-        });
-      return compact('titles', 'location', 'time', 'links', 'tags');
+        $data = $scraperService->scrap($url);
+        
+        return view('welcome', $data);
     }
 }
