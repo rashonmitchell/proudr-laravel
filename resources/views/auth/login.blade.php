@@ -1,36 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
+@if (Auth::guest())
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+    <div class="row justify-content-center align-middle">
+        <div class="col-md-8  align-items-center">
+        <img src="https://via.placeholder.com/150/FF0000/FFFFFF/?Text=Proudr"  class=" mx-auto d-block rounded-0" alt="Proudr logo">
 
-                <div class="card-body">
+            <div class="card border-none border-0 bg-transparent">
+                <div class="card-body border-light border-0 bg-transparent">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        <div class="form-group row justify-content-center">
+                            <div class="col-md-8">
+                                <input type="text" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
+                                <input type="password" id="password" class="form-control rounded-0 @error('password') is-invalid @enderror" placeholder="Password" name="password" required autocomplete="current-password">
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -51,15 +42,21 @@
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
+                        <div class="form-group row mb-0 justify-content-center">
+                            <div class="col-md-8 ">
+                                <button type="submit" class="mt-4 rounded-0 btn btn-lg btn-danger btn-block">
+                                    {{ __('Sign in') }}
                                 </button>
 
                                 @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    <a class="btn btn-link mx-auto d-block" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
+                                    </a>
+                                @endif
+
+                                @if (Route::has('register'))
+                                    <a  class="mt-4 rounded-0 btn btn-lg btn-secondary btn-block" href="{{ route('register') }}">
+                                        {{ __('Create an account') }}
                                     </a>
                                 @endif
                             </div>
@@ -70,4 +67,5 @@
         </div>
     </div>
 </div>
+@endif
 @endsection
