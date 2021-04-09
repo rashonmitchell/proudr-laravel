@@ -20,7 +20,7 @@ use App\Http\Controllers\ScraperController;
 Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/home', [ScraperController::class, 'index']);
+Route::get('/welcome', [ScraperController::class, 'index']);
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::group(['prefix' => 'admin'], function () {
