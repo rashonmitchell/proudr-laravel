@@ -16,6 +16,6 @@ class ScraperController extends Controller
         
         $data = $scraperService->scrap($url);
         
-        return view('welcome', $data);
+        return view('crawler', $data);
     }
 }

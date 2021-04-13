@@ -20,12 +20,13 @@ use App\Http\Controllers\ScraperController;
 Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/welcome', [ScraperController::class, 'index']);
+Route::get('crawler', [ScraperController::class, 'index']);
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::resource('/settings', App\Http\Controllers\SettingsController::class);
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
